@@ -1,7 +1,7 @@
 {
   "name": "ysera",
   "version": "0.1.0",
-  "description": "A Ysera library.",
+  "description": "Ysera-ified micro-core",
   "main": "build/lib/index.js",
   "scripts": {
     "test": "gulp test",
