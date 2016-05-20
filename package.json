@@ -1,6 +1,6 @@
 {
   "name": "ysera",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ysera-ified micro-core",
   "main": "build/lib/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "gulp compile"
   },
   "author": "Dhi Aurrahman <dio@hooq.tv>",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "babel": {
     "presets": [
       "es2015"
@@ -48,5 +48,26 @@
     "gulp-sourcemaps": "^1.6.0",
     "supertest": "^1.2.0",
     "supertest-as-promised": "^3.1.0"
-  }
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diorahman/ysera.git"
+  },
+  "keywords": [
+    "micro-core",
+    "micro",
+    "async",
+    "rest",
+    "microservice",
+    "microservices",
+    "server"
+  ],
+  "bugs": {
+    "url": "https://github.com/diorahman/ysera/issues"
+  },
+  "homepage": "https://github.com/diorahman/ysera#readme"
 }
