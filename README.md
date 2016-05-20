@@ -1,6 +1,6 @@
 ## Ysera
 
-This is a written package of [micro-core](https://github.com/zeit/micro-core)
+This is a re-written package of [micro-core](https://github.com/zeit/micro-core)
 to follow [mushu](https://www.npmjs.com/package/generator-mushu) style.
 
 ```js

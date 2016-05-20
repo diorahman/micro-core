@@ -1,6 +1,6 @@
 {
   "name": "ysera",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Ysera-ified micro-core",
   "main": "build/lib/index.js",
   "scripts": {
