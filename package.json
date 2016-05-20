@@ -1,55 +1,52 @@
 {
-  "name": "micro-core",
-  "version": "0.3.0",
-  "description": "Micro core utilities",
-  "main": "dist/index.js",
-  "files": [
-    "dist",
-    "bin"
-  ],
+  "name": "ysera",
+  "version": "0.1.0",
+  "description": "A Ysera library.",
+  "main": "build/lib/index.js",
   "scripts": {
-    "start": "gulp",
-    "prepublish": "gulp transpile"
+    "test": "gulp test",
+    "build": "gulp compile"
   },
-  "bin": {
-    "micro-serve": "./bin/micro-serve"
-  },
+  "author": "Dhi Aurrahman <dio@hooq.tv>",
+  "license": "SEE LICENSE IN LICENSE.md",
   "babel": {
     "presets": [
       "es2015"
     ],
     "plugins": [
       "transform-async-to-generator",
-      "syntax-async-functions"
+      "syntax-async-functions",
+      [
+        "babel-plugin-transform-builtin-extend",
+        {
+          "globals": [
+            "Error"
+          ]
+        }
+      ]
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zeit/micro-serve.git"
-  },
-  "keywords": [
-    "micro",
-    "server"
-  ],
-  "author": "zeit",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zeit/micro-serve/issues"
-  },
-  "homepage": "https://github.com/zeit/micro-serve#readme",
-  "devDependencies": {
-    "babel-plugin-syntax-async-functions": "6.5.0",
-    "babel-plugin-transform-async-to-generator": "6.7.4",
-    "babel-preset-es2015": "6.6.0",
-    "gulp": "3.9.1",
-    "gulp-babel": "6.1.2",
-    "gulp-cached": "1.1.0",
-    "gulp-concat-util": "0.5.5"
-  },
   "dependencies": {
-    "babel-regenerator-runtime": "6.5.0",
-    "media-typer": "0.3.0",
-    "raw-body": "2.1.6",
-    "minimist": "1.2.0"
+    "babel-regenerator-runtime": "^6.5.0",
+    "media-typer": "^0.3.0",
+    "raw-body": "^2.1.6",
+    "reflect-r": "^1.0.0",
+    "source-map-support": "^0.4.0",
+    "url-match": "^0.1.0"
+  },
+  "devDependencies": {
+    "ava": "^0.14.0",
+    "babel-plugin-syntax-async-functions": "^6.8.0",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-builtin-extend": "^1.1.0",
+    "babel-preset-es2015": "^6.6.0",
+    "gulp": "^3.9.1",
+    "gulp-ava": "^0.11.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-cached": "^1.1.0",
+    "gulp-concat-util": "^0.5.5",
+    "gulp-sourcemaps": "^1.6.0",
+    "supertest": "^1.2.0",
+    "supertest-as-promised": "^3.1.0"
   }
 }

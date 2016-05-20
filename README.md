@@ -1,22 +1,25 @@
-# micro-core
+## Ysera
 
-The core micro API. Designed for production use, or for packages to
-extract dependencies with a minimal footprint.
+This is a written package of [micro-core](https://github.com/zeit/micro-core)
+to follow [mushu](https://www.npmjs.com/package/generator-mushu) style.
 
-It avoids dependencies as much as possible for fast downloads.
+```js
+import Ysera from '../lib';
+const { boot, send } = Ysera,
+    fn = async (req, res) => {
+        send(res, 200, 'OK');
+    };
 
-For the complete package, API and transpilation runtime look at
-[micro](https://github.com/zeit/micro).
-
-## micro-serve
-
-This package ships with `micro-serve` installed in `bin`.
-Point it to a module that exports a `micro` request handler:
-
-```bash
-$ micro-serve -h
-usage: micro-serve [-h host] [-p port] <file>
-
-$ micro-serve -p 3000 index.js
-Listening on *:3000
+boot(fn, 3000);
 ```
+To run the prepared example,
+
+```
+$ npm install
+$ npm run build
+$ node build/examples/app.js
+```
+
+## Credits
+
+Copyright © 2016 HOOQ Digital Pte. Ltd. and project authors.
