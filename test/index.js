@@ -2,7 +2,7 @@ import test from 'ava';
 import Ysera from '../lib';
 import tester from 'supertest-as-promised';
 
-const { serve, send, parse } = Ysera;
+const { serve, send, parse, parseMeta } = Ysera;
 
 test('Yay!', async (t) => {
     const fn = async (req, res) => {
@@ -45,6 +45,45 @@ test('Yay params!', async (t) => {
     };
     await tester(serve(fn))
         .get('/test/1/hoho')
+        .expect(200)
+        .expect((res) => {
+            t.deepEqual(res.text, 'OK');
+        });
+});
+
+test('Path and query only', async (t) => {
+    const fn = async (req, res) => {
+        const parsed = parseMeta(req, { pattern: '/haha/:id/hehe/:anotherId' });
+        t.true(parsed.hasPattern);
+        t.deepEqual(parsed.pattern, '/haha/:id/hehe/:anotherId');
+        t.false(parsed.matched);
+        send(res, 200, 'OK');
+    };
+    await tester(serve(fn))
+        .get('/huhu/id/hehe/anotherId?yes=1')
+        .expect(200)
+        .expect((res) => {
+            t.deepEqual(res.text, 'OK');
+        });
+});
+
+test('Yet another path and query only', async (t) => {
+    const fn = async (req, res) => {
+        const parsed = parseMeta(req, { pattern: '/haha/:id/hehe/:anotherId' });
+        t.true(parsed.hasPattern);
+        t.deepEqual(parsed.pattern, '/haha/:id/hehe/:anotherId');
+        t.true(parsed.matched);
+        t.deepEqual(parsed.params, {
+            id: 'id',
+            anotherId: 'anotherId'
+        });
+        t.deepEqual(parsed.query, {
+            yes: 1
+        });
+        send(res, 200, 'OK');
+    };
+    await tester(serve(fn))
+        .get('/haha/id/hehe/anotherId?yes=1')
         .expect(200)
         .expect((res) => {
             t.deepEqual(res.text, 'OK');
