@@ -167,20 +167,12 @@ var Ysera = function () {
             // FIXME: log the error
             return stack;
         }
-
-        /**
-         * Parses the request.
-         *
-         * @param {http.IncomingRequest} req
-         * @param {Object} options
-         */
-
     }, {
-        key: 'parse',
+        key: 'parseMeta',
         value: function () {
             var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(req) {
                 var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-                var method, headers, url, parsedUrl, path, pathname, query, pattern, parsed, compiled, matched, key, body;
+                var method, headers, url, parsedUrl, path, pathname, query, pattern, parsed, compiled, matched, key;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -195,13 +187,15 @@ var Ysera = function () {
                                 pattern = options.pattern;
                                 parsed = {
                                     method: method,
+                                    headers: headers,
                                     url: url,
                                     path: path,
                                     pathname: pathname,
                                     query: query
                                 };
-
                                 // if we have pattern to match, e.g. /hihi/:version/:id
+                                // and given /hihi/1/haha, then we should get
+                                // { version: 1, id: 'haha' } as the params object.
 
                                 if (pattern) {
                                     compiled = CACHE[pattern] || (CACHE[pattern] = (0, _urlMatch.generate)(pattern)), matched = compiled.match(parsed.path);
@@ -215,47 +209,9 @@ var Ysera = function () {
                                     parsed.headers[key.toLowerCase()] = headers[key];
                                 }
 
-                                if (!(['POST', 'PUT'].indexOf(method) >= 0)) {
-                                    _context2.next = 25;
-                                    break;
-                                }
-
-                                _context2.next = 15;
-                                return (0, _urlencoded2.default)(req, options);
-
-                            case 15:
-                                _context2.t1 = _context2.sent;
-
-                                if (_context2.t1) {
-                                    _context2.next = 20;
-                                    break;
-                                }
-
-                                _context2.next = 19;
-                                return (0, _json2.default)(req, options);
-
-                            case 19:
-                                _context2.t1 = _context2.sent;
-
-                            case 20:
-                                _context2.t0 = _context2.t1;
-
-                                if (_context2.t0) {
-                                    _context2.next = 23;
-                                    break;
-                                }
-
-                                _context2.t0 = {};
-
-                            case 23:
-                                body = _context2.t0;
-
-                                parsed.body = body;
-
-                            case 25:
                                 return _context2.abrupt('return', parsed);
 
-                            case 26:
+                            case 13:
                             case 'end':
                                 return _context2.stop();
                         }
@@ -263,7 +219,120 @@ var Ysera = function () {
                 }, _callee2, this);
             }));
 
-            function parse(_x7, _x8) {
+            function parseMeta(_x7, _x8) {
+                return ref.apply(this, arguments);
+            }
+
+            return parseMeta;
+        }()
+    }, {
+        key: 'parseBody',
+        value: function () {
+            var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(req) {
+                var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+                var parsed;
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                parsed = {};
+
+                                if (!(['POST', 'PUT'].indexOf(req.method) >= 0)) {
+                                    _context3.next = 13;
+                                    break;
+                                }
+
+                                _context3.next = 4;
+                                return (0, _urlencoded2.default)(req, options);
+
+                            case 4:
+                                _context3.t1 = _context3.sent;
+
+                                if (_context3.t1) {
+                                    _context3.next = 9;
+                                    break;
+                                }
+
+                                _context3.next = 8;
+                                return (0, _json2.default)(req, options);
+
+                            case 8:
+                                _context3.t1 = _context3.sent;
+
+                            case 9:
+                                _context3.t0 = _context3.t1;
+
+                                if (_context3.t0) {
+                                    _context3.next = 12;
+                                    break;
+                                }
+
+                                _context3.t0 = {};
+
+                            case 12:
+                                parsed.body = _context3.t0;
+
+                            case 13:
+                                return _context3.abrupt('return', parsed);
+
+                            case 14:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function parseBody(_x10, _x11) {
+                return ref.apply(this, arguments);
+            }
+
+            return parseBody;
+        }()
+
+        /**
+         * Parses the request.
+         *
+         * @param {http.IncomingRequest} req
+         * @param {Object} options
+         */
+
+    }, {
+        key: 'parse',
+        value: function () {
+            var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(req) {
+                var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+                var parsed;
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                _context4.next = 2;
+                                return Ysera.parseMeta(req, options);
+
+                            case 2:
+                                parsed = _context4.sent;
+                                _context4.t0 = Object;
+                                _context4.t1 = parsed;
+                                _context4.next = 7;
+                                return Ysera.parseBody(req, options);
+
+                            case 7:
+                                _context4.t2 = _context4.sent;
+
+                                _context4.t0.assign.call(_context4.t0, _context4.t1, _context4.t2);
+
+                                return _context4.abrupt('return', parsed);
+
+                            case 10:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this);
+            }));
+
+            function parse(_x13, _x14) {
                 return ref.apply(this, arguments);
             }
 
