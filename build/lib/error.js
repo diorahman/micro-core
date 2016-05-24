@@ -82,9 +82,8 @@ var YseraError = function (_BaseError) {
 var HttpError = function (_BaseError2) {
     _inherits(HttpError, _BaseError2);
 
-    function HttpError(message, code) {
-        var internal = arguments.length <= 2 || arguments[2] === undefined ? 50001 : arguments[2];
-        var originalError = arguments[3];
+    function HttpError(message, code, originalError) {
+        var internal = arguments.length <= 3 || arguments[3] === undefined ? 50001 : arguments[3];
 
         _classCallCheck(this, HttpError);
 
@@ -95,7 +94,7 @@ var HttpError = function (_BaseError2) {
         var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(HttpError).call(this, message + ' (' + internal + ')'));
 
         _this3.code = code;
-        _this3.internal = internal;
+        _this3.internal = originalError.code || originalError.internal || internal;
         _this3.originalError = originalError;
         _this3.name = _this3.constructor.name;
         return _this3;

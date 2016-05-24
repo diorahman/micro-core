@@ -3,7 +3,7 @@ var Reflect = require('reflect-r');var regeneratorRuntime = require('babel-regen
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.YseraError = undefined;
+exports.HttpError = exports.YseraError = undefined;
 
 var _sourceMapSupport = require('source-map-support');
 
@@ -24,4 +24,5 @@ exports.default = _ysera2.default;
 // Exposes the lib error.
 
 exports.YseraError = _error.YseraError;
+exports.HttpError = _error.HttpError;
 //# sourceMappingURL=index.js.map

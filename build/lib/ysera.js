@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /** @module Ysera*/
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* eslint-disable no-console */
+/** @module Ysera*/
 
 
 var _http = require('http');
@@ -155,17 +156,35 @@ var Ysera = function () {
     }, {
         key: 'sendError',
         value: function sendError(req, res, _ref2) {
+            var name = _ref2.name;
             var code = _ref2.code;
             var message = _ref2.message;
+            var internal = _ref2.internal;
             var stack = _ref2.stack;
+            var originalError = _ref2.originalError;
 
             if (code) {
-                this.send(res, code, DEV ? stack : message);
+                Ysera.send(res, code, DEV ? stack : { code: internal, message: message });
             } else {
-                this.send(res, 500, DEV ? stack : 'Internal Server Error');
+                Ysera.send(res, 500, DEV ? stack : 'Internal Server Error');
             }
-            // FIXME: log the error
-            return stack;
+
+            Ysera.printStack(stack);
+
+            if (DEV) {
+                Ysera.printStack(originalError.stack);
+            }
+        }
+    }, {
+        key: 'printStack',
+        value: function printStack(stack) {
+            var stacks = stack.split('\n'),
+                filtered = stacks.filter(function (line) {
+                return line.indexOf('at _callee') > 0;
+            });
+
+            filtered.unshift(stacks.shift());
+            console.error('\n> \u001b[31mError!\u001b[39m ' + filtered.join('\n') + '.');
         }
     }, {
         key: 'parseMeta',

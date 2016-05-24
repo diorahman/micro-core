@@ -1,8 +1,9 @@
 import test from 'ava';
 import Ysera from '../lib';
+import { HttpError } from '../lib/error';
 import tester from 'supertest-as-promised';
 
-const { serve, send, parse, parseMeta } = Ysera;
+const { serve, send, sendError, parse, parseMeta } = Ysera;
 
 test('Yay!', async (t) => {
     const fn = async (req, res) => {
@@ -130,5 +131,53 @@ test('Yay json!', async (t) => {
         .expect(200)
         .expect((res) => {
             t.deepEqual(res.text, 'OK');
+        });
+});
+
+test('Send error', async (t) => {
+    const fn = async (req, res) => {
+            try {
+                await p(req, res);
+            } catch (error) {
+                sendError(req, res, error);
+            }
+        },
+        p = async (req, res) => {
+            throw new Error('Error');
+        };
+
+    await tester(serve(fn))
+        .post('/')
+        .send({
+            haha: 'hihi',
+            hehe: 'hoho'
+        })
+        .expect(500)
+        .expect((res) => {
+            t.deepEqual(res.text, 'Internal Server Error');
+        });
+});
+
+test('Send error', async (t) => {
+    const fn = async (req, res) => {
+            try {
+                await p(req, res);
+            } catch (error) {
+                sendError(req, res, error);
+            }
+        },
+        p = async (req, res) => {
+            throw new HttpError('Haha', 400, new Error('Haha'));
+        };
+
+    await tester(serve(fn))
+        .post('/')
+        .send({
+            haha: 'hihi',
+            hehe: 'hoho'
+        })
+        .expect(400)
+        .expect((res) => {
+            t.deepEqual(res.body, { message: 'Haha (50001)', code: 50001 });
         });
 });
