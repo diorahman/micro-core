@@ -1,11 +1,12 @@
 {
   "name": "ysera",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Ysera-ified micro-core",
   "main": "build/lib/index.js",
   "scripts": {
     "test": "gulp test",
-    "build": "gulp compile"
+    "build": "gulp compile",
+    "example": "gulp compile && node ./build/examples/app.js"
   },
   "author": "Dhi Aurrahman <dio@hooq.tv>",
   "license": "MIT",
